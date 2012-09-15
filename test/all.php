@@ -27,7 +27,11 @@ class ParserTest extends UnitTestCase {
   function testResults() {
     $this->assertEqual($this->p->parse(array(v('joie', 3), v('joie'))), 3);
     $this->assertEqual($this->p->parse(array(v('joie', "JOIE!"), v('joie'))), "JOIE!");
-    $this->assertEqual($this->p->parse(array(v('fruits', array('pomme', 'raisin', 'banane')), v('fruits'))), array('pomme', 'raisin', 'banane'));
+    $this->assertEqual($this->p->parse(array(v('joie', "1"), puts(v('joie')))), "1");
+    $this->assertEqual($this->p->parse(array(puts('1'))), "1");
+    $this->assertEqual(
+      $this->p->parse(array(v('fruits', array('pomme', 'raisin', 'banane')), v('fruits'))), 
+      array('pomme', 'raisin', 'banane'));
   }
 
 }

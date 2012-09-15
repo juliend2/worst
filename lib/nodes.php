@@ -15,6 +15,7 @@ function detect_type($obj) {
   }
 }
 
+// Variable management:
 class SetNode {
   function __construct($name, $value) {
     $this->name = $name;
@@ -28,6 +29,7 @@ class GetNode {
   }
 }
 
+// Basic types:
 class StringNode {
   function __construct($string) {
     $this->string = $string;
@@ -46,6 +48,7 @@ class ArrayNode {
   }
 }
 
+// Functions:
 class LambdaNode {
   function __construct($arguments, $instructions=array()) {
     $this->arguments = $arguments;
@@ -60,6 +63,7 @@ class CallNode {
   }
 }
 
+// Standard library:
 class PutsNode {
   function __construct($val) {
     $this->val = $val;
@@ -74,6 +78,8 @@ class MathNode {
   }
 }
 
+// Language constructs:
+// -----------------------------------------------------
 
 function lambda() {
   $args = func_get_args();

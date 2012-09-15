@@ -10,29 +10,31 @@ class Parser {
   }
 
   function parse($nodes = array()) {
+    $retval = null;
     foreach ($nodes as $node) {
       if (get_class($node) == 'SetNode') {
         $this->state[$node->name] = $node->value;
+        $retval = $node->value;
 
       } elseif (get_class($node) == 'GetNode') {
         $parser = new Parser($this->state, $this->calls);
-        return $parser->parse(array($this->state[$node->name]));
+        $retval = $parser->parse(array($this->state[$node->name]));
 
       } elseif (get_class($node) == 'NumberNode') {
-        return $node->num;
+        $retval = $node->num;
 
       } elseif (get_class($node) == 'StringNode') {
-        return $node->string;
+        $retval = $node->string;
 
       } elseif (get_class($node) == 'ArrayNode') {
-        return $node->arr;
+        $retval = $node->arr;
 
       } elseif (get_class($node) == 'PutsNode') {
         $this->calls[] = $node;
         $parser = new Parser($this->state, $this->calls);
         $v = $parser->parse(array($node->val));
         print $v ."\n";
-        // return $v;
+        $retval = $v;
 
       } elseif (get_class($node) == 'MathNode') {
         $first_parser = new Parser($this->state,$this->calls);
@@ -40,15 +42,15 @@ class Parser {
         $second_parser = new Parser($this->state,$this->calls);
         $second = $second_parser->parse(array($node->second));
         switch ($node->operand) {
-          case '+': return $first + $second;
-          case '-': return $first - $second;
-          case '*': return $first * $second;
-          case '/': return $first / $second;
-          case '%': return $first % $second;
+          case '+': $retval = $first + $second; break;
+          case '-': $retval = $first - $second; break;
+          case '*': $retval = $first * $second; break;
+          case '/': $retval = $first / $second; break;
+          case '%': $retval = $first % $second; break;
         }
 
       } elseif (get_class($node) == 'LambdaNode') {
-        return $node;
+        $retval = $node;
 
       } elseif (get_class($node) == 'CallNode') {
         $lambda = $this->state[$node->name];
@@ -57,13 +59,15 @@ class Parser {
           $this->state[$arg] = $node->arguments[$k];
         }
         $parser = new Parser($this->state, $this->calls);
-        return $parser->parse($body);
+        $retval = $parser->parse($body);
 
       } else {
         // literal
         // return $node;
       }
-    }
+    } // end foreach
+
+    return $retval; // return last assigned value
   }
 }
 
