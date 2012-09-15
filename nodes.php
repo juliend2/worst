@@ -73,8 +73,10 @@ function set($name, $value) {
   return new SetNode($name, $value);
 }
 
-function call($name, $arguments) {
-  return new CallNode($name, $arguments);
+function call() {
+  $args = func_get_args();
+  $name = array_shift($args);
+  return new CallNode($name, $args);
 }
 
 function puts($val) {
