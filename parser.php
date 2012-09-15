@@ -29,12 +29,18 @@ class Parser {
         $parser = new Parser($this->state, $this->calls);
         print $parser->parse(array($node->val)) ."\n";
 
-      } elseif (get_class($node) == 'AddNode') {
+      } elseif (get_class($node) == 'MathNode') {
         $first_parser = new Parser($this->state,$this->calls);
         $first = $first_parser->parse(array($node->first));
         $second_parser = new Parser($this->state,$this->calls);
         $second = $second_parser->parse(array($node->second));
-        return $first + $second;
+        switch ($node->operand) {
+        case '+': return $first + $second;
+        case '-': return $first - $second;
+        case '*': return $first * $second;
+        case '/': return $first / $second;
+        case '%': return $first % $second;
+        }
 
       } elseif (get_class($node) == 'LambdaNode') {
         return $node;

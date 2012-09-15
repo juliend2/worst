@@ -45,8 +45,9 @@ class PutsNode {
   }
 }
 
-class AddNode {
-  function __construct($first, $second) {
+class MathNode {
+  function __construct($operand, $first, $second) {
+    $this->operand = $operand;
     $this->first = $first;
     $this->second = $second;
   }
@@ -86,6 +87,7 @@ function puts($val) {
   return new PutsNode($val);
 }
 
-function add($first, $second) {
-  return new AddNode($first, $second);
+function math($operand, $first, $second) {
+  return new MathNode($operand, $first, $second);
 }
+
