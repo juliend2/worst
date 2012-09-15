@@ -13,7 +13,6 @@ class ParserTest extends UnitTestCase {
   }
 
   function testNodes() {
-    print_r(v('joie', 'joie'));
     $this->assertIsA(v('variable', 'valeur'), "SetNode");
     $this->assertIsA(v('variable'), "GetNode");
     $this->assertIsA(math('/', 2, 4), "MathNode");
@@ -21,6 +20,8 @@ class ParserTest extends UnitTestCase {
     $this->assertIsA(lambda('name', v('var', 'val'), v('var')), "LambdaNode");
     $this->assertIsA(lambda('name', array('arg1'), v('arg1')), "LambdaNode");
     $this->assertIsA(lambda('name', array('arg1', 'arg2'), v('var', v('arg1')), v('arg2')), "LambdaNode");
+    $this->assertIsA(call('name', v('arg1'), 3), 'CallNode');
+    $this->assertIsA(puts(3), 'PutsNode');
   }
 
 }

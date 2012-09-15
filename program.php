@@ -20,7 +20,9 @@ $parser->parse(array(
   puts(call('*', 10, v('un'))),
   puts(call('/', 10, v('un'))),
 
-  puts(v('joie'))
+  puts(math('+', 5, 5)),
+  puts(v('joie')),
+  puts('joie')
 
 ));
 

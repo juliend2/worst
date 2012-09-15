@@ -93,10 +93,10 @@ function call() {
 }
 
 function puts($val) {
-  return new PutsNode($val);
+  return new PutsNode(detect_type($val));
 }
 
 function math($operand, $first, $second) {
-  return new MathNode($operand, $first, $second);
+  return new MathNode($operand, detect_type($first), detect_type($second));
 }
 
