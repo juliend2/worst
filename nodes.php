@@ -1,5 +1,20 @@
 <?php
 
+// Detect PHP's primitives and set them to their respective type
+//
+// $obj : (Mixed) value from which to guess the type
+function detect_type($obj) {
+  if (is_string($obj)) {
+    return new StringNode($obj);
+  } elseif (is_numeric($obj)) {
+    return new NumberNode($obj);
+  } elseif (is_array($obj)) {
+    return new ArrayNode($obj);
+  } else {
+    return $obj;
+  }
+}
+
 class SetNode {
   function __construct($name, $value) {
     $this->name = $name;
@@ -19,9 +34,9 @@ class StringNode {
   }
 }
 
-class IntegerNode {
-  function __construct($integer) {
-    $this->integer = $integer;
+class NumberNode {
+  function __construct($num) {
+    $this->num = $num;
   }
 }
 
@@ -59,7 +74,7 @@ function str($string) {
 }
 
 function int($int) {
-  return new IntegerNode($int);
+  return new NumberNode($int);
 }
 
 function lambda() {
@@ -69,17 +84,19 @@ function lambda() {
   return new LambdaNode($arguments, $instructions);
 }
 
-function get($name) {
-  return new GetNode($name);
-}
-
-function set($name, $value) {
-  return new SetNode($name, $value);
+function v($name) {
+  $args = func_get_args();
+  if (count($args) == 1) {
+    return new GetNode($args[0]);
+  } else {
+    return new SetNode($args[0], detect_type($args[1]));
+  }
 }
 
 function call() {
   $args = func_get_args();
   $name = array_shift($args);
+  $args = array_map('detect_type', $args);
   return new CallNode($name, $args);
 }
 

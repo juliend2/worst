@@ -18,8 +18,8 @@ class Parser {
         $parser = new Parser($this->state, $this->calls);
         return $parser->parse(array($this->state[$node->name]));
 
-      } elseif (get_class($node) == 'IntegerNode') {
-        return $node->integer;
+      } elseif (get_class($node) == 'NumberNode') {
+        return $node->num;
 
       } elseif (get_class($node) == 'StringNode') {
         return $node->string;

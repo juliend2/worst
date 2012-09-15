@@ -5,20 +5,22 @@ include 'parser.php';
 $parser = new Parser();
 $parser->parse(array(
 
-  set('joie', str('cool')),
-  set('un', int(1)),
+  v('joie', 'cool'),
+  v('un', 1),
 
-  set('+', lambda(array('first', 'second'), 
-    math('+', get('first'), get('second')))),
-  set('-', lambda(array('first', 'second'), 
-    math('-', get('first'), get('second')))),
-  set('*', lambda(array('first', 'second'), 
-    math('*', get('first'), get('second')))),
-  set('/', lambda(array('first', 'second'), 
-    math('/', get('first'), get('second')))),
+  // set shortcut functions for math operations:
+  v('+', lambda(array('first', 'second'), math('+', v('first'), v('second')))),
+  v('-', lambda(array('first', 'second'), math('-', v('first'), v('second')))),
+  v('*', lambda(array('first', 'second'), math('*', v('first'), v('second')))),
+  v('/', lambda(array('first', 'second'), math('/', v('first'), v('second')))),
 
-  puts(call('+', int(2), get('un'))),
-  puts(get('joie'))
+  // try them out:
+  puts(call('+', 9, v('un'))),
+  puts(call('-', 11, v('un'))),
+  puts(call('*', 10, v('un'))),
+  puts(call('/', 10, v('un'))),
+
+  puts(v('joie'))
 
 ));
 
