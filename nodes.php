@@ -61,7 +61,10 @@ function int($int) {
   return new IntegerNode($int);
 }
 
-function lambda($arguments, $instructions) {
+function lambda() {
+  $args = func_get_args();
+  $arguments = array_shift($args);
+  $instructions = $args; // the rest are instructions
   return new LambdaNode($arguments, $instructions);
 }
 
