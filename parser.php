@@ -35,11 +35,11 @@ class Parser {
         $second_parser = new Parser($this->state,$this->calls);
         $second = $second_parser->parse(array($node->second));
         switch ($node->operand) {
-        case '+': return $first + $second;
-        case '-': return $first - $second;
-        case '*': return $first * $second;
-        case '/': return $first / $second;
-        case '%': return $first % $second;
+          case '+': return $first + $second;
+          case '-': return $first - $second;
+          case '*': return $first * $second;
+          case '/': return $first / $second;
+          case '%': return $first % $second;
         }
 
       } elseif (get_class($node) == 'LambdaNode') {
