@@ -9,7 +9,7 @@ require_once('../lib/parser.php');
 class ParserTest extends UnitTestCase {
 
   function setUp() {
-    $this->parser = new Parser();
+    $this->p = new Parser();
   }
 
   function testNodes() {
@@ -22,6 +22,12 @@ class ParserTest extends UnitTestCase {
     $this->assertIsA(lambda('name', array('arg1', 'arg2'), v('var', v('arg1')), v('arg2')), "LambdaNode");
     $this->assertIsA(call('name', v('arg1'), 3), 'CallNode');
     $this->assertIsA(puts(3), 'PutsNode');
+  }
+
+  function testResults() {
+    $this->assertEqual($this->p->parse(array(v('joie', 3), v('joie'))), 3);
+    $this->assertEqual($this->p->parse(array(v('joie', "JOIE!"), v('joie'))), "JOIE!");
+    $this->assertEqual($this->p->parse(array(v('fruits', array('pomme', 'raisin', 'banane')), v('fruits'))), array('pomme', 'raisin', 'banane'));
   }
 
 }

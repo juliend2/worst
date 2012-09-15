@@ -40,6 +40,12 @@ class NumberNode {
   }
 }
 
+class ArrayNode {
+  function __construct($arr) {
+    $this->arr = $arr;
+  }
+}
+
 class LambdaNode {
   function __construct($arguments, $instructions=array()) {
     $this->arguments = $arguments;

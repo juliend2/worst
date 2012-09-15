@@ -24,10 +24,15 @@ class Parser {
       } elseif (get_class($node) == 'StringNode') {
         return $node->string;
 
+      } elseif (get_class($node) == 'ArrayNode') {
+        return $node->arr;
+
       } elseif (get_class($node) == 'PutsNode') {
         $this->calls[] = $node;
         $parser = new Parser($this->state, $this->calls);
-        print $parser->parse(array($node->val)) ."\n";
+        $v = $parser->parse(array($node->val));
+        print $v ."\n";
+        // return $v;
 
       } elseif (get_class($node) == 'MathNode') {
         $first_parser = new Parser($this->state,$this->calls);
