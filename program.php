@@ -1,6 +1,6 @@
 <?php
-include 'nodes.php';
-include 'parser.php';
+include 'lib/nodes.php';
+include 'lib/parser.php';
 
 $parser = new Parser();
 $parser->parse(array(
