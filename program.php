@@ -22,8 +22,8 @@ $parser->parse(array(
 
   puts(math('+', 5, 5)),
   puts(v('joie')),
-  puts('joie')
+  puts('joie'),
+  puts(call('is_numeric', 4))
 
 ));
-
 

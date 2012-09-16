@@ -27,6 +27,9 @@ class Parser {
       } elseif (get_class($node) == 'ArrayNode') {
         $retval = $node->arr;
 
+      } elseif (get_class($node) == 'BooleanNode') {
+        $retval = $node->bool;
+
       } elseif (get_class($node) == 'PutsNode') {
         $parser = new Parser($this->state);
         $v = $parser->parse(array($node->val));
@@ -50,19 +53,29 @@ class Parser {
         $retval = $node;
 
       } elseif (get_class($node) == 'CallNode') {
-        $lambda = $this->state[$node->name];
-        $body = $lambda->instructions;
-        if (count($node->arguments) === count($lambda->arguments)) {
-          foreach ($lambda->arguments as $k => $arg) {
-            $this->state[$arg] = $node->arguments[$k];
+        if (isset($this->state[$node->name])) { // Lambda exists?
+          $lambda = $this->state[$node->name];
+          $body = $lambda->instructions;
+          if (count($node->arguments) === count($lambda->arguments)) {
+            foreach ($lambda->arguments as $k => $arg) {
+              $this->state[$arg] = $node->arguments[$k];
+            }
+          } else {
+            // throw an error
+            throw new Exception("The function ".$node->name." needs ".count($lambda->arguments)
+              ." arguments but you passed ".count($node->arguments)." arguments to it.");
           }
-        } else {
-          // throw an error
-          throw new Exception("The function ".$node->name." needs ".count($lambda->arguments)
-            ." arguments but you passed ".count($node->arguments)." arguments to it.");
+          $parser = new Parser($this->state);
+          $retval = $parser->parse($body);
+        } elseif (function_exists($node->name)) { // PHP function exists?
+          $parser = new Parser($this->state);
+          $args = array();
+          foreach ($node->arguments as $arg) {
+            $arg_parser = new Parser($this->state);
+            $args[] = $arg_parser->parse(array($arg));
+          }
+          $retval = $parser->parse(array(detect_type(call_user_func_array($node->name, $args))));
         }
-        $parser = new Parser($this->state);
-        $retval = $parser->parse($body);
 
       } else {
       }

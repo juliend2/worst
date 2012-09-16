@@ -54,6 +54,13 @@ class ParserTest extends UnitTestCase {
       10);
   }
 
+  function testPHPFunctions() {
+    $this->assertEqual($this->p->parse(array(
+      call('is_numeric', 4)
+    )),
+    true);
+  }
+
 }
 
 $test = new ParserTest();

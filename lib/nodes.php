@@ -6,6 +6,8 @@
 function detect_type($obj) {
   if (is_string($obj)) {
     return new StringNode($obj);
+  } elseif (is_bool($obj)) {
+    return new BooleanNode($obj);
   } elseif (is_numeric($obj)) {
     return new NumberNode($obj);
   } elseif (is_array($obj)) {
@@ -39,6 +41,12 @@ class StringNode {
 class NumberNode {
   function __construct($num) {
     $this->num = $num;
+  }
+}
+
+class BooleanNode {
+  function __construct($bool) {
+    $this->bool = $bool;
   }
 }
 
