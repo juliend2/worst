@@ -1,5 +1,6 @@
 <?php
 include 'lib/nodes.php';
+include 'lib/stdlib.php';
 include 'lib/parser.php';
 
 $parser = new Parser();
@@ -23,7 +24,7 @@ $parser->parse(array(
   puts(math('+', 5, 5)),
   puts(v('joie')),
   puts('joie'),
-  puts(call('is_numeric', 4))
+  puts(call('is_numeric', 4)),
+  loop(array(1, 2, 3), lambda(array('key', 'value'), puts(v('key'))))
 
 ));
-

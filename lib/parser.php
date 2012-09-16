@@ -77,7 +77,19 @@ class Parser {
           $retval = $parser->parse(array(detect_type(call_user_func_array($node->name, $args))));
         }
 
+      } elseif (get_class($node) == 'LoopNode') {
+        $lambda = $node->lambda;
+        foreach ($node->collection as $lambda_arg_k => $lambda_arg_v) {
+          // pass key and value to called lambda:
+          $this->state[$lambda->arguments[0]] = detect_type($lambda_arg_k);
+          $this->state[$lambda->arguments[1]] = detect_type($lambda_arg_v);
+          $parser = new Parser($this->state);
+          $parser->parse($lambda->instructions);
+        }
+        $retval = $node->collection;
+
       } else {
+        // var_dump($node);
       }
 
     } // end foreach

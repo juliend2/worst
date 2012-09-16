@@ -4,6 +4,7 @@ require_once('simpletest/unit_tester.php');
 require_once('simpletest/web_tester.php');
 require_once('simpletest/reporter.php');
 require_once('../lib/nodes.php');
+require_once('../lib/stdlib.php');
 require_once('../lib/parser.php');
 
 function my_add_function($arg1) {
@@ -67,6 +68,15 @@ class ParserTest extends UnitTestCase {
       call('my_add_function', 2)
     )),
     5);
+  }
+
+  function testLoops() {
+    // assert loop() returns the same array that is passed to it:
+    $this->assertEqual( $this->p->parse(array(
+      loop(array(1, 2, 3), lambda(array('k', 'v'), 
+        puts(v('k'))))
+    )),
+    array(1, 2, 3));
   }
 
 }
