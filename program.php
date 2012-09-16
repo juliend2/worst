@@ -8,6 +8,7 @@ $parser->parse(array(
 
   v('joie', 'cool'),
   v('un', 1),
+  v('fruits', array('bleuet', 'cerise', 'fraise')),
 
   // set shortcut functions for math operations:
   v('+', lambda(array('first', 'second'), math('+', v('first'), v('second')))),
@@ -25,6 +26,13 @@ $parser->parse(array(
   puts(v('joie')),
   puts('joie'),
   puts(call('is_numeric', 4)),
-  loop(array(1, 2, 3), lambda(array('key', 'value'), puts(v('key'))))
+
+  loop(array('banane','pomme', 'truite'), lambda(array('key', 'value'), 
+    puts(v('key')),
+    puts(v('value')))),
+
+  loop(v('fruits'), lambda(array('key', 'value'), 
+    puts(v('key')),
+    puts(v('value')))),
 
 ));

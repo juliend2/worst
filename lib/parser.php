@@ -79,7 +79,9 @@ class Parser {
 
       } elseif (get_class($node) == 'LoopNode') {
         $lambda = $node->lambda;
-        foreach ($node->collection as $lambda_arg_k => $lambda_arg_v) {
+        $parser = new Parser($this->state);
+        $collection = is_array($node->collection) ? $node->collection : $parser->parse(array($node->collection));
+        foreach ($collection as $lambda_arg_k => $lambda_arg_v) {
           // pass key and value to called lambda:
           $this->state[$lambda->arguments[0]] = detect_type($lambda_arg_k);
           $this->state[$lambda->arguments[1]] = detect_type($lambda_arg_v);

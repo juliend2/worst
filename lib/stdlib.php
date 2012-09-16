@@ -32,8 +32,6 @@ function call() {
 }
 
 function puts($val) {
-  // echo '<pre>';
-  // var_dump($val); 
   return new PutsNode(detect_type($val));
 }
 
