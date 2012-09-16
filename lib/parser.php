@@ -52,8 +52,13 @@ class Parser {
       } elseif (get_class($node) == 'CallNode') {
         $lambda = $this->state[$node->name];
         $body = $lambda->instructions;
-        foreach ($lambda->arguments as $k => $arg) {
-          $this->state[$arg] = $node->arguments[$k];
+        if (count($node->arguments) === count($lambda->arguments)) {
+          foreach ($lambda->arguments as $k => $arg) {
+            $this->state[$arg] = $node->arguments[$k];
+          }
+        } else {
+          // throw an error
+          throw new Exception("The function ".$node->name." needs ".count($lambda->arguments)." arguments but you passed ".count($node->arguments)." to it.");
         }
         $parser = new Parser($this->state);
         $retval = $parser->parse($body);

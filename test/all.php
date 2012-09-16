@@ -32,11 +32,26 @@ class ParserTest extends UnitTestCase {
     $this->assertEqual(
       $this->p->parse(array(v('fruits', array('pomme', 'raisin', 'banane')), v('fruits'))), 
       array('pomme', 'raisin', 'banane'));
+  }
+
+  function testLambdas() {
     $this->assertEqual(
-      $this->p->parse(array(
-        v('one', lambda(array(), 1)),
-        call('one')
-      )), 1);
+      $this->p->parse(array( v('one', lambda(array(), 1)), call('one'))), 
+      1);
+    $this->assertEqual(
+      $this->p->parse(array( v('one', lambda(array('arg'), v('arg'))), call('one', 2))), 
+      2);
+
+    $this->assertEqual(
+      $this->p->parse(array( 
+
+        v('global', lambda(array('n'), 
+          v('sub', lambda(array(), math('*', v('n'), 2))),
+          call('sub'))), 
+        call('global', 5)
+
+      )), 
+      10);
   }
 
 }
