@@ -6,6 +6,10 @@ require_once('simpletest/reporter.php');
 require_once('../lib/nodes.php');
 require_once('../lib/parser.php');
 
+function my_add_function($arg1) {
+  return $arg1 + 3;
+}
+
 class ParserTest extends UnitTestCase {
 
   function setUp() {
@@ -59,6 +63,10 @@ class ParserTest extends UnitTestCase {
       call('is_numeric', 4)
     )),
     true);
+    $this->assertEqual($this->p->parse(array(
+      call('my_add_function', 2)
+    )),
+    5);
   }
 
 }
