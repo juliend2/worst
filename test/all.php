@@ -16,10 +16,10 @@ class ParserTest extends UnitTestCase {
     $this->assertIsA(v('variable', 'valeur'), "SetNode");
     $this->assertIsA(v('variable'), "GetNode");
     $this->assertIsA(math('/', 2, 4), "MathNode");
-    $this->assertIsA(lambda('name', 2), "LambdaNode");
-    $this->assertIsA(lambda('name', v('var', 'val'), v('var')), "LambdaNode");
-    $this->assertIsA(lambda('name', array('arg1'), v('arg1')), "LambdaNode");
-    $this->assertIsA(lambda('name', array('arg1', 'arg2'), v('var', v('arg1')), v('arg2')), "LambdaNode");
+    $this->assertIsA(lambda(2), "LambdaNode");
+    $this->assertIsA(lambda(v('var', 'val'), v('var')), "LambdaNode");
+    $this->assertIsA(lambda(array('arg1'), v('arg1')), "LambdaNode");
+    $this->assertIsA(lambda(array('arg1', 'arg2'), v('var', v('arg1')), v('arg2')), "LambdaNode");
     $this->assertIsA(call('name', v('arg1'), 3), 'CallNode');
     $this->assertIsA(puts(3), 'PutsNode');
   }
@@ -32,6 +32,11 @@ class ParserTest extends UnitTestCase {
     $this->assertEqual(
       $this->p->parse(array(v('fruits', array('pomme', 'raisin', 'banane')), v('fruits'))), 
       array('pomme', 'raisin', 'banane'));
+    $this->assertEqual(
+      $this->p->parse(array(
+        v('one', lambda(array(), 1)),
+        call('one')
+      )), 1);
   }
 
 }

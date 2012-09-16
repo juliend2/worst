@@ -62,9 +62,8 @@ class Parser {
         $retval = $parser->parse($body);
 
       } else {
-        // literal
-        // return $node;
       }
+
     } // end foreach
 
     return $retval; // return last assigned value

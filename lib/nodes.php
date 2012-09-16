@@ -85,6 +85,7 @@ function lambda() {
   $args = func_get_args();
   $arguments = array_shift($args);
   $instructions = $args; // the rest are instructions
+  $instructions = array_map('detect_type', $instructions);
   return new LambdaNode($arguments, $instructions);
 }
 
