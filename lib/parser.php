@@ -58,7 +58,8 @@ class Parser {
           }
         } else {
           // throw an error
-          throw new Exception("The function ".$node->name." needs ".count($lambda->arguments)." arguments but you passed ".count($node->arguments)." to it.");
+          throw new Exception("The function ".$node->name." needs ".count($lambda->arguments)
+            ." arguments but you passed ".count($node->arguments)." arguments to it.");
         }
         $parser = new Parser($this->state);
         $retval = $parser->parse($body);
