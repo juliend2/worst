@@ -2,11 +2,9 @@
 
 class Parser { 
   public $state = array();
-  public $calls = array();
 
-  function __construct($state=array(), $calls=array()) {
+  function __construct($state=array()) {
     $this->state = $state;
-    $this->calls = $calls;
   }
 
   function parse($nodes = array()) {
@@ -17,7 +15,7 @@ class Parser {
         $retval = $node->value;
 
       } elseif (get_class($node) == 'GetNode') {
-        $parser = new Parser($this->state, $this->calls);
+        $parser = new Parser($this->state);
         $retval = $parser->parse(array($this->state[$node->name]));
 
       } elseif (get_class($node) == 'NumberNode') {
@@ -30,16 +28,15 @@ class Parser {
         $retval = $node->arr;
 
       } elseif (get_class($node) == 'PutsNode') {
-        $this->calls[] = $node;
-        $parser = new Parser($this->state, $this->calls);
+        $parser = new Parser($this->state);
         $v = $parser->parse(array($node->val));
         print $v ."\n";
         $retval = $v;
 
       } elseif (get_class($node) == 'MathNode') {
-        $first_parser = new Parser($this->state,$this->calls);
+        $first_parser = new Parser($this->state);
         $first = $first_parser->parse(array($node->first));
-        $second_parser = new Parser($this->state,$this->calls);
+        $second_parser = new Parser($this->state);
         $second = $second_parser->parse(array($node->second));
         switch ($node->operand) {
           case '+': $retval = $first + $second; break;
@@ -58,7 +55,7 @@ class Parser {
         foreach ($lambda->arguments as $k => $arg) {
           $this->state[$arg] = $node->arguments[$k];
         }
-        $parser = new Parser($this->state, $this->calls);
+        $parser = new Parser($this->state);
         $retval = $parser->parse($body);
 
       } else {
